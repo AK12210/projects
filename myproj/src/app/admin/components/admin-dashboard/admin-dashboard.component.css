@@ -1,0 +1,16 @@
+* {
+  margin: 0;
+}
+h3 {
+  padding-top: 50px;
+}
+.create-line {
+  height: 800px;
+  margin-left: 400px;
+  padding-top: 300px;
+  border-left: 4px solid;
+}
+table {
+  margin-top: -950px;
+  margin-left: 500px;
+}
