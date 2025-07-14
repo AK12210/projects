@@ -3,6 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 //import {NotFoundComponent} from './components/not-found/not-found.component';
 import {AuthGuard} from './guards/auth.guard';
 import {LoginComponent} from './login/login.component';
+import {CronComponent} from './cron/cron.component';
 
 const routes: Routes = [
   {path: 'login', component: LoginComponent},
@@ -13,6 +14,7 @@ const routes: Routes = [
     canDeactivate: [AuthGuard],
     loadChildren: () => import('./components/admin/admin.module').then((m) => m.AdminModule)
   },
+  {path: 'cron', component: CronComponent},
 ];
 
 @NgModule({

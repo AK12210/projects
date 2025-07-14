@@ -1,6 +1,8 @@
 <h3>{{ username }}</h3>
 <hr>
-<div class="create-line"></div>
+<button [routerLink]="['/admin']" style="padding: 12px 155px; font-size: 18px;">Список ИС</button>
+<button [routerLink]="['/cron']" style="padding: 12px 180px; font-size: 18px; display: flex; flex-direction: column;">Cron</button>
+<div class="create-line" ></div>
 <table border="1" style="border-collapse: collapse; width: 70%; text-align: left;">
   <thead>
     <tr>
@@ -56,3 +58,4 @@
     </tr>
   </tbody>
 </table>
+

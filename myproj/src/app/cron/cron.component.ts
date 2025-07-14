@@ -2,13 +2,13 @@ import { Component } from '@angular/core';
 import {RouterLink} from '@angular/router';
 
 @Component({
-  selector: 'app-admin-dashboard',
+  selector: 'app-cron',
   imports: [
     RouterLink
   ],
-  templateUrl: './admin-dashboard.component.html',
-  styleUrl: './admin-dashboard.component.css'
+  templateUrl: './cron.component.html',
+  styleUrl: './cron.component.css'
 })
-export class AdminDashboardComponent {
+export class CronComponent {
   username: string = 'Adminov Admin';
 }

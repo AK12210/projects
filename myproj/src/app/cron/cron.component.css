@@ -1,0 +1,46 @@
+* {
+  margin: 0;
+}
+h3 {
+  padding-top: 50px;
+}
+.create-line {
+  height: 800px;
+  margin-left: 400px;
+  padding-top: 300px;
+  border-left: 4px solid;
+}
+table {
+  margin-top: -950px;
+  margin-left: 500px;
+}
+.content {
+  position: absolute;
+  top: 100px;
+  left: 500px;
+  font-size: 18px;
+}
+.content1 {
+  position: absolute;
+  top: 174px;
+  left: 300px;
+  font-size: 18px;
+}
+.content2 {
+  position: absolute;
+  top: 174px;
+  left: 700px;
+  font-size: 18px;
+}
+.button {
+  position: absolute;
+  top: 260px;
+  left: 250px;
+  padding: 10px 50px; font-size: 14px;
+}
+.content3 {
+  position: absolute;
+  top: 174px;
+  left: 1000px;
+  font-size: 18px;
+}
