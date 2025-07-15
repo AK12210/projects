@@ -10,7 +10,18 @@ h3 {
   padding-top: 300px;
   border-left: 4px solid;
 }
-table {
-  margin-top: -950px;
+.tabl
+{
+  position: absolute;
+  margin-top: -1150px;
   margin-left: 500px;
+}
+.pagination-controls-wrapper {
+  justify-content: space-between;
+}
+
+.page-size-selector {
+  display: flex;
+  align-items: center;
+  gap: 10px;
 }

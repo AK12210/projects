@@ -3,59 +3,44 @@
 <button [routerLink]="['/admin']" style="padding: 12px 155px; font-size: 18px;">Список ИС</button>
 <button [routerLink]="['/cron']" style="padding: 12px 180px; font-size: 18px; display: flex; flex-direction: column;">Cron</button>
 <div class="create-line" ></div>
-<table border="1" style="border-collapse: collapse; width: 70%; text-align: left;">
+<div class="tabl">
+<table border="1" cellpadding="10">
   <thead>
     <tr>
       <th>ID</th>
-      <th>Name</th>
-      <th>Department</th>
-      <th>Access level</th>
-      <th>Phone</th>
+      <th>Code</th>
+      <th>name</th>
+      <th>description</th>
+      <th>comment</th>
+      <th>Actual</th>
+      <th>Critical</th>
+      <th>Created on</th>
     </tr>
   </thead>
   <tbody>
-    <tr>
-      <td>56495885</td>
-      <td>A A</td>
-      <td>Finance</td>
-      <td>Database1</td>
-      <td>+7(701)2825237</td>
-    </tr>
-    <tr>
-      <td>67873957</td>
-      <td>B B</td>
-      <td>Finance</td>
-      <td>Database2</td>
-      <td>+7(717)3869652</td>
-    </tr>
-    <tr>
-      <td>47295345</td>
-      <td>C C</td>
-      <td>IT</td>
-      <td>Admin</td>
-      <td>+7(727)5467392</td>
-    </tr>
-    <tr>
-      <td>84859634</td>
-      <td>D D</td>
-      <td>Finance</td>
-      <td>Database3</td>
-      <td>+7(702)4942528</td>
-    </tr>
-    <tr>
-      <td>58254887</td>
-      <td>E E</td>
-      <td>IT</td>
-      <td>Admin</td>
-      <td>+7(701)2836844</td>
-    </tr>
-    <tr>
-      <td>73758735</td>
-      <td>F F</td>
-      <td>IT</td>
-      <td>Admin</td>
-      <td>+7(707)1222345</td>
+    <tr *ngFor="let item of items | paginate: { itemsPerPage: itemsPerPage, currentPage: page }">
+      <td>{{ item.id }}</td>
+      <td>{{ item.code }}</td>
+      <td>{{ item.name }}</td>
+      <td>{{ item.description }}</td>
+      <td>{{ item.comment }}</td>
+      <td>{{ item.isActual }}</td>
+      <td>{{ item.isCritical }}</td>
+      <td>{{ item.createdDate }}</td>
     </tr>
   </tbody>
 </table>
+<div class="pagination-controls-wrapper">
+  <div class="page-size-selector">
+  <pagination-controls (pageChange)="page = $event"></pagination-controls>
+  <select [(ngModel)]="itemsPerPage">
+  <option *ngFor="let size of perPageOptions" [value]="size">
+    {{ size }}
+  </option>
+</select>
+    </div>
+  </div>
+</div>
+
+
 
