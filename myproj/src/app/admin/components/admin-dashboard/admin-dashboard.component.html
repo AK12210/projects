@@ -1,10 +1,12 @@
-<h3>{{ username }}</h3>
+<h3> <nz-icon nzType="user" nzTheme="outline" class="pfp"/>{{ username }}</h3>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
 <hr>
-<button [routerLink]="['/admin']" style="padding: 12px 155px; font-size: 18px;">Список ИС</button>
-<button [routerLink]="['/cron']" style="padding: 12px 180px; font-size: 18px; display: flex; flex-direction: column;">Cron</button>
+<button [routerLink]="['/admin']" class="buttonIS">Список ИС</button>
+<button [routerLink]="['/cron']" class="buttonCron">Cron</button>
 <div class="create-line" ></div>
 <div class="tabl">
-<table border="1" cellpadding="10">
+<nz-table #outBordered nzOuterBordered nzBordered [nzData]="items" [nzLoading]="loading" [nzShowPagination]="false" [nzScroll]="{ x: '100%' }"
+  style="width: 100%">
   <thead>
     <tr>
       <th>ID</th>
@@ -27,9 +29,10 @@
       <td>{{ item.isActual }}</td>
       <td>{{ item.isCritical }}</td>
       <td>{{ item.createdDate }}</td>
+
     </tr>
   </tbody>
-</table>
+</nz-table>
 <div class="pagination-controls-wrapper">
   <div class="page-size-selector">
   <pagination-controls (pageChange)="page = $event"></pagination-controls>

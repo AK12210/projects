@@ -1,5 +1,6 @@
 * {
   margin: 0;
+  font-family: 'Inter', 'Poppins', sans-serif;
 }
 h3 {
   padding-top: 50px;
@@ -13,8 +14,9 @@ h3 {
 .tabl
 {
   position: absolute;
-  margin-top: -1150px;
+  margin-top: -860px;
   margin-left: 500px;
+  border-width: 1000px;
 }
 .pagination-controls-wrapper {
   justify-content: space-between;
@@ -25,3 +27,14 @@ h3 {
   align-items: center;
   gap: 10px;
 }
+.buttonIS {
+  padding: 12px 152px; font-size: 18px; background-color: #f0b414; cursor: pointer;
+}
+.buttonCron {
+  padding: 12px 180px; font-size: 18px; display: flex; flex-direction: column; background-color: #f0b414; cursor: pointer;
+}
+tr:hover {background-color: #f0b414;}
+.pfp {
+  font-size: 22px;
+}
+

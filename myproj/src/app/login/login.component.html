@@ -13,7 +13,7 @@
         }
 
         body {
-            background-color: #f0b414;
+            background: linear-gradient(135deg, #f0b414, #fceabb);
             display: flex;
             flex-direction: column;
             min-height: 100vh;
@@ -68,10 +68,10 @@
         .login-button {
             background-color: #1877f2;
             color: white;
-            padding: 14px;
+            align-content: center;
             border: none;
             border-radius: 6px;
-            font-size: 20px;
+            font-size: 17px;
             font-weight: bold;
             cursor: pointer;
         }
@@ -81,6 +81,19 @@
           max-width: 300px;
           margin: 0 auto 20px;
         }
+        [nz-button] {
+        margin-right: 8px;
+        margin-bottom: 12px;
+      }
+        .login-button:hover {
+  background-color: #1558b0;
+  transition: background-color 0.3s ease;
+}
+        button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+          background-color: grey;
+}
 
     </style>
 </head>
@@ -94,7 +107,15 @@
                     <p *ngIf="this.loginForm.get('username')?.invalid && this.loginForm.get('username')?.touched"><small style="color:red">Username is required</small></p>
                     <input formControlName="password" type="password" placeholder="Password">
                     <p *ngIf="this.loginForm.get('password')?.invalid && this.loginForm.get('password')?.touched"><small style="color:red">Password is required</small></p>
-                    <button [disabled]="loginForm.invalid" type="submit" class="login-button">Login</button>
+                     <button
+                      nz-button
+                      nzType="primary"
+                      [nzSize]="size"
+                      nzShape="round"
+                      class="login-button"
+                      [disabled]="loginForm.invalid">
+                      Login
+                    </button>
                 </form>
             </div>
         </div>

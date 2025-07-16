@@ -1,7 +1,8 @@
-<h3>{{ username }}</h3>
+<h3> <nz-icon nzType="user" nzTheme="outline" class="pfp"/>{{ username }}</h3>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
 <hr>
-<button [routerLink]="['/admin']" style="padding: 12px 155px; font-size: 18px;">Список ИС</button>
-<button [routerLink]="['/cron']" style="padding: 12px 180px; font-size: 18px; display: flex; flex-direction: column;">Cron</button>
+<button [routerLink]="['/admin']" class="buttonIS">Список ИС</button>
+<button [routerLink]="['/cron']" class="buttonCron">Cron</button>
 <div class="create-line" ></div>
 <div class="content">
   <form action="/action_page.php">
