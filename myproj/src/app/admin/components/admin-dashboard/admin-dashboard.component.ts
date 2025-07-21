@@ -5,6 +5,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import {NzTableComponent} from 'ng-zorro-antd/table';
 import {NzIconDirective} from 'ng-zorro-antd/icon';
+import { UserService, MyUser } from './user.service';
 
 @Component({
   selector: 'app-admin-dashboard',
@@ -22,7 +23,8 @@ import {NzIconDirective} from 'ng-zorro-antd/icon';
 })
 export class AdminDashboardComponent implements OnInit{
   username: string = 'Adminov Admin';
-    items = Array.from({ length: 50 }, (_, i) => ({
+  users: MyUser[] = [];
+  items = Array.from({ length: 50 }, (_, i) => ({
     id: i + 230001,
     code: "AD",
     name: "Active directory",
@@ -32,12 +34,11 @@ export class AdminDashboardComponent implements OnInit{
     isCritical: false,
     createdDate: "2025-03-28"
   }));
+  constructor(private userService: UserService) {}
+   ngOnInit() {
+    this.userService.getUsers().subscribe(data => this.users = data);
+  }
   page = 1;
-  ngOnInit(): void {
-  setTimeout(() => {
-    this.loading = false;
-  }, 600);
-}
    itemsPerPage = 10;
   loading = true;
   perPageOptions = [5, 10, 20, 50];
