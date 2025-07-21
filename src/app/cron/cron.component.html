@@ -1,0 +1,97 @@
+<h3> <nz-icon nzType="user" nzTheme="outline" class="pfp"/>{{ username }}</h3>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+<hr>
+<button [routerLink]="['/admin']" class="buttonIS">Список ИС</button>
+<button [routerLink]="['/cron']" class="buttonCron">Cron</button>
+<div class="create-line" ></div>
+<div class="content">
+  <form action="/action_page.php">
+  <label for="task">Choose task: </label>
+  <select name="task" id="task">
+    <option value="minutes">Sync</option>
+    <option value="hours">Update</option>
+  </select></form>
+  <form action="/action_page.php">
+  <label for="time">Every </label>
+    <label for="fname"></label>
+  <input type="text" id="fname" name="fname">
+  <select name="time" id="time">
+    <option value="minutes">minutes</option>
+    <option value="hours">hours</option>
+    <option value="days">days</option>
+    <option value="week">week</option>
+    <option value="month">month</option>
+  </select></form>
+  <h4 style="margin-left: 100px;">OR</h4>
+  <label for="hour">At </label>
+  <input type="text" id="hour" name="hour" placeholder="hours">
+  <label for="minute"> : </label>
+  <input type="text" id="minute" name="minute" placeholder="minutes">
+  <label for="minut">Day of the month:   </label>
+  <input type="text" id="minut" name="minut" placeholder="day">
+  <h4 style="margin-left: 100px;">OR</h4>
+  <form action="/action_page.php">
+  <label for="hour">At </label>
+  <input type="text" id="hour" name="hour" placeholder="hours">
+  <label for="minute"> : </label>
+  <input type="text" id="minute" name="minute" placeholder="day">
+  <label for="week">Day of the week:   </label>
+    <select name="week" id="week">
+    <option value="Monday">Monday</option>
+    <option value="Tuesday">Tuesday</option>
+    <option value="Wednesday">Wednesday</option>
+    <option value="Thursday">Thursday</option>
+    <option value="Friday">Friday</option>
+      <option value="Saturday">Saturday</option>
+    <option value="Sunday">Sunday</option>
+  </select></form>
+  <h4 style="margin-left: 100px; color: grey;">(use - to define range or , to include multiple values)</h4>
+  <h4 style="margin-left: 100px;">OR</h4>
+  <h4 style="margin-left: 10px; ">Minutes(all if unselected)</h4>
+<button>1</button>
+<button>2</button>
+<button>3</button><button>4</button>
+<button>5</button>
+<button>6</button>
+  <button>7</button>
+<button>8</button>
+<button>9</button><button>10</button>
+<button>11</button>
+<button>12</button>
+  <div class="content1">
+  <h4 style="margin-left: 100px;">Hours(all if unselected)</h4>
+<button>1</button>
+<button>2</button>
+<button>3</button><button>4</button>
+<button>5</button>
+<button>6</button>
+  <button>7</button>
+<button>8</button>
+<button>9</button><button>10</button>
+<button>11</button>
+<button>12</button>
+    </div>
+  <div class="content2">
+  <h4 style="margin-left: 220px;">Days(all if unselected)</h4>
+<button>1</button>
+<button>2</button>
+<button>3</button><button>4</button>
+<button>5</button>
+<button>6</button>
+  <button>7</button>
+<button>8</button>
+<button>9</button><button>10</button>
+<button>11</button>
+<button>12</button>
+    </div>
+  <div class="content3">
+  <h4 style="margin-left: 220px;">Days of the month(all if unselected)</h4>
+<button>Monday</button>
+<button>Tuesday</button>
+<button>Wednesday</button><button>Thursday</button>
+<button>Friday</button>
+<button>Saturday</button>
+  <button>Sunday</button>
+    </div>
+<button type="submit" class="button">Submit</button>
+</div>

@@ -1,0 +1,78 @@
+<label>
+  <input
+    type="checkbox"
+    [checked]="isDisabled"
+    (change)="onCheckboxChange('disable')"
+  />
+  All
+</label>
+
+<label style="margin-left: 20px;">
+  <input
+    type="checkbox"
+    [checked]="!isDisabled"
+    (change)="onCheckboxChange('enable')"
+  />
+  Select:
+</label>
+
+<!-- The section to grey out -->
+<div
+  [ngStyle]="{
+    'opacity': isDisabled ? 0.5 : 1,
+    'pointer-events': isDisabled ? 'none' : 'auto'
+  }"
+  style="margin-top: 20px; padding: 16px; border: 1px solid #ccc;"
+>
+  <h4 style="margin-left: 10px; ">Minutes</h4>
+<button>1</button>
+<button>2</button>
+<button>3</button><button>4</button>
+<button>5</button>
+<button>6</button>
+  <button>7</button>
+<button>8</button>
+<button>9</button><button>10</button>
+<button>11</button>
+<button>12</button>
+</div>
+<label>
+  <input
+    type="checkbox"
+    [checked]="isDisabled1"
+    (change)="onCheckboxChange1('disable')"
+  />
+  All
+</label>
+
+<label style="margin-left: 20px;">
+  <input
+    type="checkbox"
+    [checked]="!isDisabled1"
+    (change)="onCheckboxChange1('enable')"
+  />
+  Select:
+</label>
+
+<!-- The section to grey out -->
+<div
+  [ngStyle]="{
+    'opacity': isDisabled1 ? 0.5 : 1,
+    'pointer-events': isDisabled1 ? 'none' : 'auto'
+  }"
+  style="margin-top: 20px; padding: 16px; border: 1px solid #ccc;"
+>
+  <h4 style="margin-left: 10px; ">Hours</h4>
+<button>1</button>
+<button>2</button>
+<button>3</button><button>4</button>
+<button>5</button>
+<button>6</button>
+  <button>7</button>
+<button>8</button>
+<button>9</button><button>10</button>
+<button>11</button>
+<button>12</button>
+</div>
+<button type="submit">Submit</button>
+

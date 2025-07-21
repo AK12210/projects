@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="favicon.svg">
+    <title>Login page</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #f0b414, #fceabb);
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        .container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 72px 0;
+            flex: 1;
+        }
+
+        .content {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            max-width: 980px;
+            width: 100%;
+            padding: 20px;
+        }
+
+        .login-container {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1), 0 8px 16px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            max-width: 396px;
+            width: 100%;
+        }
+
+        .login-form {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        input {
+            padding: 14px 16px;
+            border: 1px solid #dddfe2;
+            border-radius: 6px;
+            font-size: 17px;
+            width: 100%;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: #1877f2;
+            box-shadow: 0 0 0 2px #e7f3ff;
+        }
+
+        .login-button {
+            background-color: #1877f2;
+            color: white;
+            align-content: center;
+            border: none;
+            border-radius: 6px;
+            font-size: 17px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .logo {
+          display: block;
+          max-width: 300px;
+          margin: 0 auto 20px;
+        }
+        [nz-button] {
+        margin-right: 8px;
+        margin-bottom: 12px;
+      }
+        .login-button:hover {
+  background-color: #1558b0;
+  transition: background-color 0.3s ease;
+}
+        button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+          background-color: grey;
+}
+
+    </style>
+</head>
+<body>
+    <main class="container">
+        <div class="content">
+            <div class="login-container">
+              <img src="filene.webp" alt="Logo" class="logo">
+                <form [formGroup]="loginForm" (ngSubmit)="submitLogin()" class="login-form">
+                    <input formControlName="username" type="text" placeholder="Username">
+                    <p *ngIf="this.loginForm.get('username')?.invalid && this.loginForm.get('username')?.touched"><small style="color:red">Username is required</small></p>
+                    <input formControlName="password" type="password" placeholder="Password">
+                    <p *ngIf="this.loginForm.get('password')?.invalid && this.loginForm.get('password')?.touched"><small style="color:red">Password is required</small></p>
+                     <button
+                      nz-button
+                      nzType="primary"
+                      [nzSize]="size"
+                      nzShape="round"
+                      class="login-button"
+                      [disabled]="loginForm.invalid">
+                      Login
+                    </button>
+                </form>
+            </div>
+        </div>
+    </main>
+</body>
