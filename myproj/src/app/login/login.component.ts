@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {FormControl, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
+import {FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
 import {CommonModule} from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import {AuthService} from '../services/auth.service';
@@ -9,6 +9,7 @@ import {NzButtonSize, NzButtonModule} from 'ng-zorro-antd/button';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzRadioModule } from 'ng-zorro-antd/radio';
 import { NzSpaceModule } from 'ng-zorro-antd/space';
+import {HttpClient} from '@angular/common/http';
 
 @Component({
   selector: 'app-login',
@@ -19,26 +20,32 @@ import { NzSpaceModule } from 'ng-zorro-antd/space';
   styleUrl: './login.component.css'
 })
 export class LoginComponent implements OnInit {
-  loginForm!: FormGroup
+  public loginForm!: FormGroup
   size: NzButtonSize = 'large';
 
-  constructor(
-    private router: Router,
-    private authService: AuthService) {
+  constructor(private formbuilder: FormBuilder, private http: HttpClient, private router: Router) {
   }
-  submitLogin() {
-    this.authService.login(this.loginForm.value).subscribe({
-      next: () => this.router.navigate(['admin']),
-      error: (err) => alert(err.message)
+
+  ngOnInit(): void {
+    this.loginForm = this.formbuilder.group({
+      username: ['', Validators.required],
+      password: ['', Validators.required]
     })
   }
-  ngOnInit(): void {
-    this.loginForm = new FormGroup({
-      'username': new FormControl('', [Validators.required]),
-      'password': new FormControl('', [Validators.required])
-    });
-    if (this.authService.isLoggedIn()) {
-      this.router.navigate(['admin'])
-    }
+
+  login() {
+    this.http.get<any>("http://localhost:8080/api/users").subscribe(res => {
+        const user = res.find((a: any) => {
+          return a.username === this.loginForm.value.username && a.password === this.loginForm.value.password
+        });
+        if (user) {
+          this.loginForm.reset()
+          this.router.navigate(["admin"])
+        } else {
+          alert("user not found")
+        }
+      }, err => {
+        alert("Something went wrong")
+      })
   }
 }

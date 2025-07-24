@@ -102,7 +102,7 @@
         <div class="content">
             <div class="login-container">
               <img src="filene.webp" alt="Logo" class="logo">
-                <form [formGroup]="loginForm" (ngSubmit)="submitLogin()" class="login-form">
+                <form [formGroup]="loginForm" (ngSubmit)="login()" class="login-form">
                     <input formControlName="username" type="text" placeholder="Username">
                     <p *ngIf="this.loginForm.get('username')?.invalid && this.loginForm.get('username')?.touched"><small style="color:red">Username is required</small></p>
                     <input formControlName="password" type="password" placeholder="Password">
