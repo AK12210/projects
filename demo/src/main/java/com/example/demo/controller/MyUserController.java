@@ -14,21 +14,23 @@ import org.springframework.ui.Model;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-@RestController("users")
+@RestController()
 @RequestMapping("/api/users")
 @CrossOrigin(origins = "*")
 public class MyUserController {
 
     @Autowired
-    private MyUserRepository userRepository;
+    private final MyUserRepository userRepository;
     private static final Logger logger = LoggerFactory.getLogger(MyUserController.class);
-
-    @GetMapping("/home")
-    public String home(Model model) {
+    
+    public MyUserController(MyUserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
+    
+    @GetMapping()
+    public List<MyUser> getAllUsers() {
     	logger.info("This is an info log message.");
-        List<MyUser> users = userRepository.findAll();	
-        model.addAttribute("users", users);
-        return "home";
+        return userRepository.findAll();	
     }
 
     @PostMapping
