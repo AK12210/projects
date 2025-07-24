@@ -9,55 +9,22 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.config.Customizer;
 import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration
 public class SecurityConfiguration {
 
-    private final MyUserDetailService myUserDetailService;
+	@Bean
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+        http
+            .csrf(csrf -> csrf.disable())
+            .authorizeHttpRequests(auth -> auth
+                .requestMatchers("/api/users/**").permitAll()
+                .anyRequest().authenticated()
+            )
+            .formLogin(Customizer.withDefaults());
 
-    public SecurityConfiguration(MyUserDetailService myUserDetailService) {
-        this.myUserDetailService = myUserDetailService;
-    }
-
-    @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
-        return httpSecurity.authorizeHttpRequests(
-                        authorize -> {
-                            authorize.requestMatchers("/css/**", "/js/**", "/images/**").permitAll();
-                            authorize.requestMatchers("/login", "/error/**", "/logout", "/", "/home").permitAll();
-                            authorize.requestMatchers("/admin/**").hasRole("ADMIN");
-                            authorize.requestMatchers("/user/**").hasRole("USER");
-                            authorize.anyRequest().authenticated();
-                        }
-                ).formLogin(formLogin -> formLogin
-                        .loginPage("/login")
-                        .defaultSuccessUrl("/", true)
-                        .permitAll())
-                .logout(logout -> logout.logoutUrl("/logout")
-                        .logoutSuccessUrl("/login?logout")
-                        .permitAll()
-                )
-                .csrf(AbstractHttpConfigurer::disable)
-                .build();
-    }
-
-    @Bean
-    public UserDetailsService userDetailService() {
-        return myUserDetailService;
-    }
-
-
-    @Bean
-    public AuthenticationProvider authenticationProvider() {
-        DaoAuthenticationProvider daoAuthenticationProvider = new DaoAuthenticationProvider();
-        daoAuthenticationProvider.setUserDetailsService(myUserDetailService);
-        daoAuthenticationProvider.setPasswordEncoder(bCryptPasswordEncoder());
-        return daoAuthenticationProvider;
-    }
-
-    @Bean
-    public BCryptPasswordEncoder bCryptPasswordEncoder() {
-        return new BCryptPasswordEncoder();
+        return http.build();
     }
 }
