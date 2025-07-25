@@ -7,6 +7,7 @@ export interface MyUser {
   username: string;
   password: string;
   roles: string;
+  active: boolean;
 }
 
 @Injectable({
@@ -23,5 +24,12 @@ export class UserService {
 
   createUser(user: MyUser): Observable<MyUser> {
     return this.http.post<MyUser>(this.baseUrl, user);
+  }
+  updateUser(id: number, user: MyUser): Observable<MyUser> {
+    return this.http.put<MyUser>(`${this.baseUrl}/${id}`, user);
+  }
+
+  deleteUser(id: number | undefined): Observable<void> {
+    return this.http.delete<void>(`${this.baseUrl}/${id}`);
   }
 }
