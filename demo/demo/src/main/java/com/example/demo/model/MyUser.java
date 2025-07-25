@@ -13,7 +13,6 @@ import javax.persistence.Table;
 @Data
 @Entity
 @AllArgsConstructor
-@NoArgsConstructor
 @Builder
 public class MyUser {
 
@@ -23,6 +22,7 @@ public class MyUser {
     private String username;
     private String password;
     private String roles;
+    private boolean active;
 
     public MyUser() {
     }
@@ -57,5 +57,12 @@ public class MyUser {
 
     public void setRoles(String roles) {
         this.roles = roles;
+    }
+    public boolean isActive() {
+        return active;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
     }
 }
