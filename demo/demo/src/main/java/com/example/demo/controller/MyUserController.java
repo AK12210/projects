@@ -1,60 +1,68 @@
-package com.example.demo.controller;
+package com.example.demo.model;
 
-import com.example.demo.model.MyUser;
-import com.example.demo.repository.MyUserRepository;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import javax.persistence.Table;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
+@Data
+@Entity
+@AllArgsConstructor
+@Builder
+public class MyUser {
 
-import java.util.List;
-import org.springframework.web.bind.annotation.RequestBody; 
-import org.springframework.ui.Model;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+    private String username;
+    private String password;
+    private String roles;
+    private boolean active;
 
-@RestController()
-@RequestMapping("/api/users")
-@CrossOrigin(origins = "*")
-public class MyUserController {
-
-    @Autowired
-    private final MyUserRepository userRepository;
-    private static final Logger logger = LoggerFactory.getLogger(MyUserController.class);
-    
-    public MyUserController(MyUserRepository userRepository) {
-        this.userRepository = userRepository;
-    }
-    
-    @GetMapping()
-    public List<MyUser> getAllUsers() {
-        return userRepository.findAll();	
+    public MyUser() {
     }
 
-    @PostMapping
-    public MyUser createUser(@RequestBody MyUser user) {
-        return userRepository.save(user);
-    }
-    
-    @PutMapping("/{id}")
-    public MyUser updateUser(@PathVariable Long id, @RequestBody MyUser updatedUser) {
-        return userRepository.findById(id)
-            .map(user -> {
-                user.setUsername(updatedUser.getUsername());
-                user.setPassword(updatedUser.getPassword());
-                user.setRoles(updatedUser.getRoles());
-                user.setActive(updatedUser.isActive());
-                return userRepository.save(user);
-            })
-            .orElseThrow(() -> new RuntimeException("User not found with id " + id));
+    public Long getId() {
+        return id;
     }
 
-    @DeleteMapping("/{id}")
-    public void deleteUser(@PathVariable Long id) {
-        if (!userRepository.existsById(id)) {
-            throw new RuntimeException("User not found with id " + id);
-        }
-        userRepository.deleteById(id);
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public String getRoles() {
+        return roles;
+    }
+
+    public void setRoles(String roles) {
+        this.roles = roles;
+    }
+    public boolean isActive() {
+        return active;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
     }
 }
