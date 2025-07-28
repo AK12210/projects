@@ -27,8 +27,7 @@
     <button nz-button nzType="default" type="button" (click)="showCreateForm = false">Cancel</button>
   </form>
 </div>
-<nz-table #outBordered nzOuterBordered nzBordered [nzData]="items" [nzShowPagination]="false" [nzScroll]="{ x: '100%' }"
-  style="width: 100%">
+<nz-table #outBordered nzOuterBordered nzBordered [nzData]="items" [nzShowPagination]="false" [nzScroll]="{ x: '100%' }" style="width: 100%">
   <thead>
     <tr>
       <th>ID</th>
@@ -39,18 +38,54 @@
     </tr>
   </thead>
   <tbody>
-    <tr *ngFor="let user of users">
+    <tr *ngFor="let user of users | paginate: { itemsPerPage: itemsPerPage, currentPage: page }">
     <td>{{ user.id }}</td>
     <td>{{ user.username }}</td>
     <td>{{ user.roles }}</td>
     <td>
-      <button nz-button nzType="default" (click)="deleteUser(user.id)">
+      <button nz-button nzType="default" (click)="deleteUser(user.id); createMessage('success')">
   <nz-icon nzType="delete" nzTheme="outline"></nz-icon>
 </button>
     </td>
+      <td>
+    <button nz-button nzType="primary" (click)="openEditDrawer(user)">
+      <nz-icon nzType="edit"></nz-icon> Edit
+    </button>
+  </td>
   </tr>
   </tbody>
 </nz-table>
+  <nz-drawer
+  [nzVisible]="isEditDrawerVisible"
+  nzTitle="Edit User"
+  nzPlacement="right"
+  [nzWidth]="360"
+  (nzOnClose)="closeEditDrawer()"
+>
+  <form [formGroup]="editForm" (ngSubmit)="submitEdit()">
+    <nz-form-item>
+      <nz-form-label [nzSpan]="6">Username</nz-form-label>
+      <nz-form-control [nzSpan]="16">
+        <input nz-input formControlName="username" />
+      </nz-form-control>
+    </nz-form-item>
+
+    <nz-form-item>
+      <nz-form-label [nzSpan]="6">Role</nz-form-label>
+      <nz-form-control [nzSpan]="16">
+        <input nz-input formControlName="roles" />
+      </nz-form-control>
+    </nz-form-item>
+
+    <nz-form-item>
+      <nz-form-control [nzSpan]="24">
+        <button nz-button nzType="primary" htmlType="submit" [disabled]="editForm.invalid">
+          Save
+        </button>
+      </nz-form-control>
+    </nz-form-item>
+  </form>
+</nz-drawer>
 <div class="pagination-controls-wrapper">
   <div class="page-size-selector">
   <pagination-controls (pageChange)="page = $event"></pagination-controls>
@@ -61,8 +96,6 @@
 </select>
     </div>
   </div>
-
-
 </div>
 
 
