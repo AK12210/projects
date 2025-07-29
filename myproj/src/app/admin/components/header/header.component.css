@@ -4,6 +4,7 @@
 }
 h3 {
   padding-top: 50px;
+  background: linear-gradient(135deg, #f0b414, #fceabb);
 }
 .create-line {
   height: 800px;
@@ -11,35 +12,18 @@ h3 {
   padding-top: 300px;
   border-left: 4px solid;
 }
-.tabl
-{
-  position: absolute;
-  margin-top: -860px;
-  margin-left: 500px;
-  border-width: 1000px;
-}
-.pagination-controls-wrapper {
-  justify-content: space-between;
-}
-
-.page-size-selector {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
 .buttonIS {
   padding: 12px 152px; font-size: 18px; background-color: #f0b414; cursor: pointer;
 }
 .buttonCron {
   padding: 12px 180px; font-size: 18px; display: flex; flex-direction: column; background-color: #f0b414; cursor: pointer;
 }
-tr:hover {background-color: #f0b414;}
 .pfp {
   font-size: 22px;
 }
-.deleteb {
-  margin-left: 1120px;
-}
-thead {
-  background-color: #f0b414;
+.logo {
+  position: absolute;
+  margin-top: -68px;
+  height: 60px;
+  margin-left: 851px;
 }

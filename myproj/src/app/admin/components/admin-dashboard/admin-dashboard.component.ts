@@ -17,6 +17,7 @@ import { NzInputModule } from 'ng-zorro-antd/input';
 import { NzSelectModule } from 'ng-zorro-antd/select';
 import { NzDatePickerModule } from 'ng-zorro-antd/date-picker';
 import { NzDrawerModule } from 'ng-zorro-antd/drawer';
+import {HeaderComponent} from '../header/header.component';
 
 @Component({
   selector: 'app-admin-dashboard',
@@ -37,7 +38,8 @@ import { NzDrawerModule } from 'ng-zorro-antd/drawer';
     NzSelectModule,
     NzDatePickerModule,
     NzDrawerModule,
-    NzSelectComponent
+    NzSelectComponent,
+    HeaderComponent
   ],
   templateUrl: './admin-dashboard.component.html',
   styleUrl: './admin-dashboard.component.css',
@@ -51,6 +53,8 @@ export class AdminDashboardComponent implements OnInit{
    isEditDrawerVisible = false;
 editForm!: FormGroup;
 selectedUserId!: number;
+searchTerm = '';
+loading = false;
 
   open(): void {
     this.visible = true;
@@ -89,7 +93,7 @@ selectedUserId!: number;
 
 ngOnInit(): void {
     this.loadUsers();
-
+    this.onSearch();
     this.createForm = this.fb.group({
       username: [''],
       password: [''],
@@ -101,6 +105,13 @@ ngOnInit(): void {
     roles: ['']
   });
   }
+  onSearch(): void {
+  this.loading = true;
+  this.userService.getUsers(this.searchTerm).subscribe(data => {
+    this.users = data;
+    this.loading = false;
+  });
+}
 createUser() {
   const newUser = this.createForm.value;
   this.userService.createUser(newUser).subscribe({
@@ -139,7 +150,6 @@ submitEdit(): void {
 
   page = 1;
    itemsPerPage = 10;
-  loading = true;
   perPageOptions = [5, 10, 20, 50];
 
 }

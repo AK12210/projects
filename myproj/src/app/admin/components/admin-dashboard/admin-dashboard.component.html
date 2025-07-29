@@ -1,9 +1,6 @@
-<h3> <nz-icon nzType="user" nzTheme="outline" class="pfp"/>{{ username }}</h3>
+<app-header></app-header>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
 <hr>
-<button [routerLink]="['/admin']" class="buttonIS">Список ИС</button>
-<button [routerLink]="['/cron']" class="buttonCron">Cron</button>
-<div class="create-line" ></div>
 <div class="tabl">
 <button nz-button nzType="default" (click)="showCreateForm = true" class="deleteb">
   <nz-icon nzType="plus" nzTheme="outline"></nz-icon>
@@ -27,7 +24,19 @@
     <button nz-button nzType="default" type="button" (click)="showCreateForm = false">Cancel</button>
   </form>
 </div>
-<nz-table #outBordered nzOuterBordered nzBordered [nzData]="items" [nzShowPagination]="false" [nzScroll]="{ x: '100%' }" style="width: 100%">
+  <nz-input-group [nzSuffix]="suffixIcon">
+  <input
+    type="text"
+    nz-input
+    placeholder="Search by username or role"
+    [(ngModel)]="searchTerm"
+    (ngModelChange)="onSearch()"
+/>
+  <ng-template #suffixIcon>
+    <i nz-icon nzType="search"></i>
+  </ng-template>
+</nz-input-group>
+<nz-table #outBordered nzOuterBordered nzBordered [nzShowPagination]="false" [nzScroll]="{ x: '100%' }" style="width: 100%">
   <thead>
     <tr>
       <th>ID</th>
