@@ -26,11 +26,6 @@ public class MyUserController {
     public MyUserController(MyUserRepository userRepository) {
         this.userRepository = userRepository;
     }
-    
-    @GetMapping()
-    public List<MyUser> getAllUsers() {
-        return userRepository.findAll();	
-    }
 
     @PostMapping
     public MyUser createUser(@RequestBody MyUser user) {
@@ -56,5 +51,13 @@ public class MyUserController {
             throw new RuntimeException("User not found with id " + id);
         }
         userRepository.deleteById(id);
+    }
+    @GetMapping()
+    public List<MyUser> getUsers(@RequestParam(required = false) String search) {
+        if (search != null && !search.isEmpty()) {
+            return userRepository.findByUsernameContainingIgnoreCaseOrRolesContainingIgnoreCase(search, search);
+        } else {
+            return userRepository.findAll();
+        }
     }
 }
