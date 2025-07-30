@@ -4,20 +4,6 @@
   margin: 0;
   font-family: 'Inter', 'Poppins', sans-serif;
 }
-.tabl
-{
-  position: absolute;
-  margin-top: -860px;
-  margin-left: 500px;
-  border-width: 1000px;
-}
-tr:hover {background-color: #f0b414;}
-.pfp {
-  font-size: 22px;
-}
 .deleteb {
   margin-left: 1120px;
-}
-thead {
-  background-color: #f0b414;
 }

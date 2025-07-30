@@ -5,7 +5,7 @@ import { CommonModule } from '@angular/common';
 import {FormBuilder, FormGroup, FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {NzTableComponent} from 'ng-zorro-antd/table';
 import {NzIconDirective} from 'ng-zorro-antd/icon';
-import { UserService, MyUser } from './user.service';
+import {UserService, MyUser} from '../admin-dashboard/user.service';
 import {NzModalComponent} from 'ng-zorro-antd/modal';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzMessageService } from 'ng-zorro-antd/message';
@@ -17,12 +17,9 @@ import { NzInputModule } from 'ng-zorro-antd/input';
 import { NzSelectModule } from 'ng-zorro-antd/select';
 import { NzDatePickerModule } from 'ng-zorro-antd/date-picker';
 import { NzDrawerModule } from 'ng-zorro-antd/drawer';
-import {HeaderComponent} from '../header/header.component';
-import {TableComponent} from '../table/table.component';
-import {CreateformComponent} from '../createform/createform.component';
 
 @Component({
-  selector: 'app-admin-dashboard',
+  selector: 'app-table',
   imports: [
     RouterLink,
     NgxPaginationModule,
@@ -41,74 +38,30 @@ import {CreateformComponent} from '../createform/createform.component';
     NzDatePickerModule,
     NzDrawerModule,
     NzSelectComponent,
-    HeaderComponent,
-    TableComponent,
-    CreateformComponent
   ],
-  templateUrl: './admin-dashboard.component.html',
-  styleUrl: './admin-dashboard.component.css',
-  encapsulation: ViewEncapsulation.Emulated
+  templateUrl: './table.component.html',
+  styleUrl: './table.component.css'
 })
-export class AdminDashboardComponent implements OnInit{
-  username: string = 'Adminov Admin';
-  showCreateForm = false;
-   createForm!: FormGroup;
-   visible = false;
-   isEditDrawerVisible = false;
-editForm!: FormGroup;
-selectedUserId!: number;
-searchTerm = '';
+export class TableComponent implements OnInit{
+    users: MyUser[] = [];
+    page = 1;
+    itemsPerPage = 10;
+    perPageOptions = [5, 10, 20, 50];
+    selectedUserId!: number;
+    isEditDrawerVisible = false;
+    editForm!: FormGroup;
+    searchTerm = '';
 loading = false;
-
-  open(): void {
-    this.visible = true;
-  }
-
-  close(): void {
-    this.visible = false;
-  }
-    createMessage(type: string): void {
-    this.message.create(type, `User deleted successfully`);
-  }
-  users: MyUser[] = [];
-  constructor(private fb: FormBuilder, private userService: UserService, private message: NzMessageService) {}
-  items = Array.from({ length: 50 }, (_, i) => ({
-    id: i + 230001,
-    code: "AD",
-    name: "Active directory",
-    description: "very interesting",
-    comment: "to do tomorrow",
-    isActual: true,
-    isCritical: false,
-    createdDate: "2025-03-28"
-  }));
-
-  loadUsers(): void {
-    this.userService.getUsers().subscribe(data => {
-      this.users = data;
-    });
-  }
-
-  deleteUser(id: number | undefined): void {
-    this.userService.deleteUser(id).subscribe(() => {
-      this.loadUsers();
-    });
-  }
-
 ngOnInit(): void {
     this.loadUsers();
     this.onSearch();
-    this.createForm = this.fb.group({
-      username: [''],
-      password: [''],
-      roles: [''],
-      active: [false]
-    });
      this.editForm = this.fb.group({
     username: [''],
     roles: ['']
   });
   }
+    constructor(private fb: FormBuilder, private userService: UserService, private message: NzMessageService) {}
+
   onSearch(): void {
   this.loading = true;
   this.userService.getUsers(this.searchTerm).subscribe(data => {
@@ -116,19 +69,14 @@ ngOnInit(): void {
     this.loading = false;
   });
 }
-createUser() {
-  const newUser = this.createForm.value;
-  this.userService.createUser(newUser).subscribe({
-    next: () => {
-      this.loadUsers();
-      this.createForm.reset();
-      this.showCreateForm = false;
-      this.message.create('success', `User created successfully`);
-    },
-    error: err => console.error(err)
-  });
-}
-openEditDrawer(user: MyUser): void {
+
+  loadUsers(): void {
+    this.userService.getUsers().subscribe(data => {
+      this.users = data;
+    });
+  }
+
+  openEditDrawer(user: MyUser): void {
   this.selectedUserId = user.id!;
   console.log('Opening drawer with user:', user);
   this.editForm.patchValue({
@@ -138,7 +86,17 @@ openEditDrawer(user: MyUser): void {
   this.isEditDrawerVisible = true;
 }
 
-closeEditDrawer(): void {
+  createMessage(type: string): void {
+    this.message.create(type, `User deleted successfully`);
+  }
+
+    deleteUser(id: number | undefined): void {
+    this.userService.deleteUser(id).subscribe(() => {
+      this.loadUsers();
+    });
+  }
+
+  closeEditDrawer(): void {
   this.isEditDrawerVisible = false;
 }
 
@@ -151,9 +109,4 @@ submitEdit(): void {
     });
   }
 }
-
-  page = 1;
-   itemsPerPage = 10;
-  perPageOptions = [5, 10, 20, 50];
-
 }
