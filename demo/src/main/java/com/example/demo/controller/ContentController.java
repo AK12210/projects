@@ -10,7 +10,6 @@ public class ContentController {
     public String home() {
         return "home";
     }
-
     @GetMapping("/home")
     public String homeAlias() {
         return "home";

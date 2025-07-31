@@ -2,11 +2,16 @@ package com.example.demo.controller;
 
 import com.example.demo.model.MyUser;
 import com.example.demo.repository.MyUserRepository;
+import com.example.demo.service.LogService;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.stereotype.Service;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.Authentication;
 
 import java.util.List;
 import org.springframework.web.bind.annotation.RequestBody; 
@@ -21,20 +26,54 @@ public class MyUserController {
 
     @Autowired
     private final MyUserRepository userRepository;
+    private final LogService logService;
     private static final Logger logger = LoggerFactory.getLogger(MyUserController.class);
     
-    public MyUserController(MyUserRepository userRepository) {
+    public MyUserController(MyUserRepository userRepository, LogService logService) {
         this.userRepository = userRepository;
-    }
-    
-    @GetMapping()
-    public List<MyUser> getAllUsers() {
-    	logger.info("This is an info log message.");
-        return userRepository.findAll();	
+        this.logService = logService;
     }
 
     @PostMapping
     public MyUser createUser(@RequestBody MyUser user) {
-        return userRepository.save(user);
+        MyUser savedUser = userRepository.save(user);
+        String currentUsername = SecurityContextHolder.getContext().getAuthentication().getName();
+        logService.log("CREATE_USER", currentUsername, "User created with ID: " + savedUser.getId());
+        return savedUser;
     }
+    
+    @PutMapping("/{id}")
+    public MyUser updateUser(@PathVariable Long id, @RequestBody MyUser updatedUser) {
+    	String currentUsername = SecurityContextHolder.getContext().getAuthentication().getName();
+        return userRepository.findById(id)
+            .map(user -> {
+                user.setUsername(updatedUser.getUsername());
+                user.setPassword(updatedUser.getPassword());
+                user.setRoles(updatedUser.getRoles());
+                user.setActive(updatedUser.isActive());
+                MyUser saved = userRepository.save(user);
+                logService.log("UPDATE_USER", currentUsername, "Updated user with ID: " + saved.getId());
+                return saved;
+            })
+            .orElseThrow(() -> new RuntimeException("User not found with id " + id));
+    }
+
+    @DeleteMapping("/{id}")
+    public void deleteUser(@PathVariable Long id) {
+    	String currentUsername = SecurityContextHolder.getContext().getAuthentication().getName();
+        if (!userRepository.existsById(id)) {
+            throw new RuntimeException("User not found with id " + id);
+        }
+        userRepository.deleteById(id);
+        logService.log("DELETE_USER", "admin", "Deleted user with ID: " + id);
+    }
+    @GetMapping()
+    public List<MyUser> getUsers(@RequestParam(required = false) String search) {
+        if (search != null && !search.isEmpty()) {
+            return userRepository.findByUsernameContainingIgnoreCaseOrRolesContainingIgnoreCase(search, search);
+        } else {
+            return userRepository.findAll();
+        }
+    }
+    
 }
