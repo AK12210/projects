@@ -23,6 +23,7 @@ export class LoginComponent implements OnInit {
   public loginForm!: FormGroup
   size: NzButtonSize = 'large';
 
+
   constructor(private formbuilder: FormBuilder, private http: HttpClient, private router: Router) {
   }
 
@@ -40,6 +41,8 @@ export class LoginComponent implements OnInit {
         });
         if (user) {
           this.loginForm.reset()
+          console.log(user.username);
+          localStorage.setItem('username', user.username);
           this.router.navigate(["admin"])
         } else {
           alert("user not found")

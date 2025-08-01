@@ -15,7 +15,6 @@ export interface MyUser {
 })
 export class UserService {
   private baseUrl = 'http://localhost:8080/api/users';
-
   constructor(private http: HttpClient) {}
 
   getUsers(search: string = ''): Observable<MyUser[]> {
@@ -24,14 +23,17 @@ export class UserService {
 }
 
   createUser(user: MyUser): Observable<MyUser> {
-    return this.http.post<MyUser>(this.baseUrl, user);
+    const currentUsername = localStorage.getItem('username');
+    return this.http.post<MyUser>(`${this.baseUrl}/${currentUsername}`, user);
   }
   updateUser(id: number, user: MyUser): Observable<MyUser> {
-    return this.http.put<MyUser>(`${this.baseUrl}/${id}`, user);
+    const currentUsername = localStorage.getItem('username');
+    return this.http.put<MyUser>(`${this.baseUrl}/${currentUsername}/${id}`, user);
   }
 
   deleteUser(id: number | undefined): Observable<void> {
-    return this.http.delete<void>(`${this.baseUrl}/${id}`);
+    const currentUsername = localStorage.getItem('username');
+    return this.http.delete<void>(`${this.baseUrl}/${currentUsername}/${id}`);
   }
 
 }
