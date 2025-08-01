@@ -34,16 +34,16 @@ public class MyUserController {
         this.logService = logService;
     }
 
-    @PostMapping
-    public MyUser createUser(@RequestBody MyUser user) {
+    @PostMapping("/{cid}")
+    public MyUser createUser(@PathVariable String cid, @RequestBody MyUser user) {
         MyUser savedUser = userRepository.save(user);
         String currentUsername = SecurityContextHolder.getContext().getAuthentication().getName();
-        logService.log("CREATE_USER", currentUsername, "User created with ID: " + savedUser.getId());
+        logService.log("CREATE_USER", cid, "User created with ID: " + savedUser.getId());
         return savedUser;
     }
     
-    @PutMapping("/{id}")
-    public MyUser updateUser(@PathVariable Long id, @RequestBody MyUser updatedUser) {
+    @PutMapping("/{cid}/{id}")
+    public MyUser updateUser(@PathVariable String cid, @PathVariable Long id, @RequestBody MyUser updatedUser) {
     	String currentUsername = SecurityContextHolder.getContext().getAuthentication().getName();
         return userRepository.findById(id)
             .map(user -> {
@@ -52,20 +52,20 @@ public class MyUserController {
                 user.setRoles(updatedUser.getRoles());
                 user.setActive(updatedUser.isActive());
                 MyUser saved = userRepository.save(user);
-                logService.log("UPDATE_USER", currentUsername, "Updated user with ID: " + saved.getId());
+                logService.log("UPDATE_USER", cid, "Updated user with ID: " + saved.getId());
                 return saved;
             })
             .orElseThrow(() -> new RuntimeException("User not found with id " + id));
     }
 
-    @DeleteMapping("/{id}")
-    public void deleteUser(@PathVariable Long id) {
+    @DeleteMapping("/{cid}/{id}")
+    public void deleteUser(@PathVariable String cid, @PathVariable Long id) {
     	String currentUsername = SecurityContextHolder.getContext().getAuthentication().getName();
         if (!userRepository.existsById(id)) {
             throw new RuntimeException("User not found with id " + id);
         }
         userRepository.deleteById(id);
-        logService.log("DELETE_USER", "admin", "Deleted user with ID: " + id);
+        logService.log("DELETE_USER", cid, "Deleted user with ID: " + id);
     }
     @GetMapping()
     public List<MyUser> getUsers(@RequestParam(required = false) String search) {
