@@ -59,6 +59,7 @@ editForm!: FormGroup;
 selectedUserId!: number;
 searchTerm = '';
 loading = false;
+public userRoles: string[] = [];
 
   open(): void {
     this.visible = true;
@@ -98,6 +99,7 @@ loading = false;
 ngOnInit(): void {
     this.loadUsers();
     this.onSearch();
+    this.getUserRoles();
     this.createForm = this.fb.group({
       username: [''],
       password: [''],
@@ -148,6 +150,20 @@ submitEdit(): void {
     this.userService.updateUser(this.selectedUserId, updatedUser).subscribe(() => {
       this.loadUsers();
       this.closeEditDrawer();
+    });
+  }
+}
+getUserRoles() {
+  const username = localStorage.getItem('admin');
+  if (username) {
+    this.userService.getUserRoles(username).subscribe({
+      next: roles => {
+        this.userRoles = roles;
+        console.log("User roles:", roles);
+      },
+      error: err => {
+        console.error("Failed to fetch roles:", err);
+      }
     });
   }
 }

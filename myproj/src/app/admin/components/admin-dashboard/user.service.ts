@@ -36,4 +36,7 @@ export class UserService {
     return this.http.delete<void>(`${this.baseUrl}/${currentUsername}/${id}`);
   }
 
+  getUserRoles(username: string): Observable<string[]> {
+  return this.http.get<string[]>(`http://localhost:8080/api/users/${username}/roles`);
+}
 }

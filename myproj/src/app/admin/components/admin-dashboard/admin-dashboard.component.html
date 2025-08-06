@@ -1,5 +1,6 @@
 <app-header></app-header>
 <div class="tabl">
+
   <!--
 <button nz-button nzType="default" (click)="showCreateForm = true" class="deleteb">
   <nz-icon nzType="plus" nzTheme="outline"></nz-icon>
@@ -98,6 +99,9 @@
   </div>
   -->
 </div>
+  <p *ngFor="let role of userRoles">
+  Role: {{ role }}
+</p>
 
 
 
