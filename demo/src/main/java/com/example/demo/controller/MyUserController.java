@@ -1,5 +1,6 @@
 package com.example.demo.controller;
 
+import com.example.demo.dto.RoleDTO;
 import com.example.demo.model.MyUser;
 import com.example.demo.repository.MyUserRepository;
 import com.example.demo.service.LogService;
@@ -67,6 +68,12 @@ public class MyUserController {
         userRepository.deleteById(id);
         logService.log("DELETE_USER", cid, "Deleted user with ID: " + id);
     }
+    
+    @GetMapping("/{username}/roles")
+    public List<RoleDTO> getUserRoles(@PathVariable String username) {
+        return userRepository.findRoleDetailsByUsername(username);
+    }
+    
     @GetMapping()
     public List<MyUser> getUsers(@RequestParam(required = false) String search) {
         if (search != null && !search.isEmpty()) {

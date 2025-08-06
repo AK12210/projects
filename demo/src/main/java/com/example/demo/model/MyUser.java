@@ -1,13 +1,14 @@
 package com.example.demo.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.util.HashSet;
+import java.util.Set;
+
 import javax.persistence.Table;
 
 @Data
@@ -22,6 +23,13 @@ public class MyUser {
     private String username;
     private String password;
     private String roles;
+    @ManyToMany
+    @JoinTable(
+        name = "user_roles", // join table name
+        joinColumns = @JoinColumn(name = "user_id"), // FK to MyUser
+        inverseJoinColumns = @JoinColumn(name = "role_id") // FK to Role
+    )
+    private Set<Role> role = new HashSet<>();
     private boolean active;
 
     public MyUser() {
