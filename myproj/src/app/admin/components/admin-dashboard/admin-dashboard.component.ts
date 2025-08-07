@@ -20,6 +20,7 @@ import { NzDrawerModule } from 'ng-zorro-antd/drawer';
 import {HeaderComponent} from '../header/header.component';
 import {TableComponent} from '../table/table.component';
 import {CreateformComponent} from '../createform/createform.component';
+import { RoleDTO } from './role-dto.model';
 
 @Component({
   selector: 'app-admin-dashboard',
@@ -59,18 +60,8 @@ editForm!: FormGroup;
 selectedUserId!: number;
 searchTerm = '';
 loading = false;
-public userRoles: string[] = [];
+roles: RoleDTO[] = [];
 
-  open(): void {
-    this.visible = true;
-  }
-
-  close(): void {
-    this.visible = false;
-  }
-    createMessage(type: string): void {
-    this.message.create(type, `User deleted successfully`);
-  }
   users: MyUser[] = [];
   constructor(private fb: FormBuilder, private userService: UserService, private message: NzMessageService) {}
   items = Array.from({ length: 50 }, (_, i) => ({
@@ -90,16 +81,12 @@ public userRoles: string[] = [];
     });
   }
 
-  deleteUser(id: number | undefined): void {
-    this.userService.deleteUser(id).subscribe(() => {
-      this.loadUsers();
-    });
-  }
-
 ngOnInit(): void {
     this.loadUsers();
     this.onSearch();
-    this.getUserRoles();
+    this.userService.getUserRoles('admin').subscribe((data) => {
+      this.roles = data;
+    });
     this.createForm = this.fb.group({
       username: [''],
       password: [''],
@@ -118,18 +105,7 @@ ngOnInit(): void {
     this.loading = false;
   });
 }
-createUser() {
-  const newUser = this.createForm.value;
-  this.userService.createUser(newUser).subscribe({
-    next: () => {
-      this.loadUsers();
-      this.createForm.reset();
-      this.showCreateForm = false;
-      this.message.create('success', `User created successfully`);
-    },
-    error: err => console.error(err)
-  });
-}
+
 openEditDrawer(user: MyUser): void {
   this.selectedUserId = user.id!;
   console.log('Opening drawer with user:', user);
@@ -153,23 +129,4 @@ submitEdit(): void {
     });
   }
 }
-getUserRoles() {
-  const username = localStorage.getItem('admin');
-  if (username) {
-    this.userService.getUserRoles(username).subscribe({
-      next: roles => {
-        this.userRoles = roles;
-        console.log("User roles:", roles);
-      },
-      error: err => {
-        console.error("Failed to fetch roles:", err);
-      }
-    });
-  }
-}
-
-  page = 1;
-   itemsPerPage = 10;
-  perPageOptions = [5, 10, 20, 50];
-
 }

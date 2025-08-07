@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import {HttpClient, HttpParams} from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { RoleDTO } from './role-dto.model';
 
 export interface MyUser {
   id?: number;
@@ -36,7 +37,7 @@ export class UserService {
     return this.http.delete<void>(`${this.baseUrl}/${currentUsername}/${id}`);
   }
 
-  getUserRoles(username: string): Observable<string[]> {
-  return this.http.get<string[]>(`http://localhost:8080/api/users/${username}/roles`);
-}
+  getUserRoles(username: string): Observable<RoleDTO[]> {
+    return this.http.get<RoleDTO[]>(`${this.baseUrl}/${username}/roles`);
+  }
 }
