@@ -76,7 +76,7 @@ public class MyUserController {
     
     @GetMapping()
     public List<MyUser> getUsers(@RequestParam(required = false) String search) {
-        if (search != null && !search.isEmpty()) {
+        if (search != null) {
             return userRepository.findByUsernameContainingIgnoreCaseOrRolesContainingIgnoreCase(search, search);
         } else {
             return userRepository.findAll();

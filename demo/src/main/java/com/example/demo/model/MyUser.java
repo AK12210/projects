@@ -25,9 +25,9 @@ public class MyUser {
     private String roles;
     @ManyToMany
     @JoinTable(
-        name = "user_roles", // join table name
-        joinColumns = @JoinColumn(name = "user_id"), // FK to MyUser
-        inverseJoinColumns = @JoinColumn(name = "role_id") // FK to Role
+        name = "user_roles",
+        joinColumns = @JoinColumn(name = "user_id"),
+        inverseJoinColumns = @JoinColumn(name = "role_id")
     )
     private Set<Role> role = new HashSet<>();
     private boolean active;

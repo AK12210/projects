@@ -9,7 +9,6 @@ public class RoleDTO {
         this.description = description;
     }
 
-    // Getters
     public String getName() {
         return name;
     }
